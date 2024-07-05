@@ -1,27 +1,57 @@
 const express = require('express');
-const mongoose = require('mongoose'); // Import mongoose for MongoDB interactions
+const mongoose = require('mongoose');
 const cors = require('cors');
+const morgan = require('morgan');
+const responseTime = require('response-time');
 const dotenv = require('dotenv');
-const noteRoutes = require('./routes/notes'); // Import the routes for notes
-const connectDB = require('./config/db'); // Import the database connection
+const path = require('path');
+const passport = require('passport');
+const session = require('express-session');
+const noteRoutes = require('./routes/notes');
+const authRoutes = require('./routes/auth');
+const connectDB = require('./config/db');
 
-// Load environment variables from .env file
 dotenv.config();
 
 const app = express();
 app.use(cors());
-app.use(express.json()); // Middleware to parse JSON bodies
+app.use(express.json());
+app.use(morgan('dev'));
+app.use(responseTime());
 
-mongoose.set('strictQuery', true); // Set strictQuery option for mongoose
+// Serve static files
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Session setup
+app.use(session({
+  secret: 'your_secret_key',
+  resave: false,
+  saveUninitialized: true
+}));
+
+// Passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Passport config
+require('./config/passport')(passport);
+
+mongoose.set('strictQuery', true);
 
 // Connect to MongoDB
 connectDB();
 
-// Use the routes for handling /api requests
+// Middleware and Routes
 app.use('/api', noteRoutes);
+app.use('/auth', authRoutes);
 
-// Start the server
+// Error Handling Middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Something broke!');
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-   console.log(`Server is running on port ${PORT}`);
+  console.log(`Server is running on port ${PORT}`);
 });

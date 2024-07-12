@@ -20,6 +20,7 @@ const noteSchema = new mongoose.Schema({
   }
 });
 
-const Note = mongoose.model('Note', noteSchema);
+// Check if the model already exists to prevent OverwriteModelError
+const Note = mongoose.models.Note || mongoose.model('Note', noteSchema);
 
 module.exports = Note;

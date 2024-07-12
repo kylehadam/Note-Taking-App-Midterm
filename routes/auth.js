@@ -2,10 +2,10 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
-const User = require('../models/User');
+const User = require('../models/user');
 
-// Register page
-router.post('/register', (req, res) => {
+// Register user
+router.post('/register', async (req, res) => {
   const { username, password } = req.body;
   let errors = [];
 
@@ -14,46 +14,54 @@ router.post('/register', (req, res) => {
   }
 
   if (errors.length > 0) {
-    res.status(400).json(errors);
-  } else {
-    User.findOne({ username: username }).then(user => {
-      if (user) {
-        res.status(400).json({ msg: 'Username already exists' });
-      } else {
-        const newUser = new User({
-          username,
-          password
-        });
+    return res.status(400).json(errors);
+  }
 
-        bcrypt.genSalt(10, (err, salt) => {
-          bcrypt.hash(newUser.password, salt, (err, hash) => {
-            if (err) throw err;
-            newUser.password = hash;
-            newUser.save()
-              .then(user => {
-                res.json({ msg: 'You are now registered and can log in' });
-              })
-              .catch(err => console.log(err));
-          });
-        });
-      }
-    });
+  try {
+    const existingUser = await User.findOne({ username });
+    if (existingUser) {
+      return res.status(400).json({ msg: 'Username already exists' });
+    }
+
+    const newUser = new User({ username, password });
+    const salt = await bcrypt.genSalt(10);
+    newUser.password = await bcrypt.hash(newUser.password, salt);
+    await newUser.save();
+
+    res.json({ msg: 'You are now registered and can log in' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server error');
   }
 });
 
-// Login page
+// Login user
 router.post('/login', (req, res, next) => {
-  passport.authenticate('local', {
-    successRedirect: '/',
-    failureRedirect: '/login',
-    failureFlash: true
+  passport.authenticate('local', (err, user, info) => {
+    if (err) {
+      return next(err);
+    }
+    if (!user) {
+      return res.status(400).json({ msg: 'Invalid credentials' });
+    }
+    req.logIn(user, (err) => {
+      if (err) {
+        return next(err);
+      }
+      res.json({ msg: 'You are logged in', user });
+    });
   })(req, res, next);
 });
 
-// Logout
+// Logout user
 router.get('/logout', (req, res) => {
-  req.logout();
-  res.json({ msg: 'You are logged out' });
+  req.logout((err) => {
+    if (err) {
+      console.error('Logout error:', err);
+      return res.status(500).json({ msg: 'Something broke', error: err.message });
+    }
+    res.json({ msg: 'You are logged out' });
+  });
 });
 
 module.exports = router;

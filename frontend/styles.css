@@ -1,50 +1,57 @@
+/* General body styles */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
- }
- 
- #app {
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    max-width: 600px;
-    width: 100%;
- }
- 
- h1 {
-    text-align: center;
-    color: #333;
- }
- 
- #note-list {
-    margin-bottom: 20px;
- }
- 
- #note-form input, #note-form textarea {
-    width: calc(100% - 22px);
-    margin-bottom: 10px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
- }
- 
- #note-form button {
-    padding: 10px 15px;
-    background: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
- }
- 
- #note-form button:hover {
-    background: #0056b3;
- }
- 
+   font-family: Arial, sans-serif;
+   background-color: #f0f0f0;
+   margin: 0;
+   padding: 0;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   height: 100vh;
+}
+
+/* App container styles */
+#app {
+   background: white;
+   padding: 20px;
+   border-radius: 8px;
+   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+   max-width: 600px;
+   width: 100%;
+}
+
+/* Heading styles */
+h1 {
+   text-align: center;
+   color: #333;
+}
+
+/* Note list styles */
+#note-list {
+   margin-bottom: 20px;
+}
+
+/* Form input and textarea styles */
+#note-form input,
+#note-form textarea {
+   width: calc(100% - 22px);
+   margin-bottom: 10px;
+   padding: 10px;
+   border: 1px solid #ccc;
+   border-radius: 4px;
+}
+
+/* Form button styles */
+#note-form button {
+   padding: 10px 15px;
+   background: #007bff;
+   color: white;
+   border: none;
+   border-radius: 4px;
+   cursor: pointer;
+}
+
+/* Form button hover state */
+#note-form button:hover {
+   background: #0056b3;
+}

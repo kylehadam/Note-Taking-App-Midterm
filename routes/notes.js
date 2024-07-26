@@ -47,7 +47,7 @@ router.delete('/notes/:id', ensureAuthenticated, async (req, res) => {
       return res.status(404).json({ msg: 'Note not found' });
     }
 
-    await note.remove();
+    await Note.deleteOne({ _id: req.params.id });
     res.json({ msg: 'Note removed' });
   } catch (err) {
     console.error(err.message);

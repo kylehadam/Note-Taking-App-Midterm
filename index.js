@@ -11,6 +11,7 @@ const bodyParser = require('body-parser');
 const noteRoutes = require('./routes/notes');
 const authRoutes = require('./routes/auth');
 const connectDB = require('./config/db');
+const MongoStore = require('connect-mongo');
 
 dotenv.config();
 
@@ -30,11 +31,15 @@ app.use(responseTime());
 // Serve static files from the "frontend" directory
 app.use(express.static(path.join(__dirname, 'frontend')));
 
-// Session setup
+// Session setup with MongoStore
 app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false, // Set to false to ensure sessions are not saved unless modified
+  store: MongoStore.create({
+    mongoUrl: process.env.MONGO_URI,
+    collectionName: 'sessions'
+  }),
   cookie: {
     secure: false, // Set to true if using HTTPS
     httpOnly: true, // Helps prevent cross-site scripting attacks

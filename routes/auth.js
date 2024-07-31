@@ -37,19 +37,10 @@ router.post('/register', async (req, res) => {
 
 // Login user
 router.post('/login', (req, res, next) => {
-  passport.authenticate('local', (err, user, info) => {
-    if (err) {
-      return next(err);
-    }
-    if (!user) {
-      return res.status(400).json({ msg: 'Invalid credentials' });
-    }
-    req.logIn(user, (err) => {
-      if (err) {
-        return next(err);
-      }
-      res.json({ msg: 'You are logged in', user });
-    });
+  passport.authenticate('local', {
+    successRedirect: '/dashboard', // Change to your success redirect URL
+    failureRedirect: '/',
+    failureFlash: true
   })(req, res, next);
 });
 

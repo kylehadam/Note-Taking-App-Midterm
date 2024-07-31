@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const bcrypt = require('bcryptjs');
 const passport = require('passport');
 const User = require('../models/User');
 
@@ -23,9 +22,8 @@ router.post('/register', async (req, res) => {
       return res.status(400).json({ msg: 'Username already exists' });
     }
 
-    const newUser = new User({ username, password });
-    const salt = await bcrypt.genSalt(10);
-    newUser.password = await bcrypt.hash(newUser.password, salt);
+    const newUser = new User({ username });
+    newUser.setPassword(password);
     await newUser.save();
 
     res.json({ msg: 'You are now registered and can log in' });

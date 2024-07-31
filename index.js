@@ -8,10 +8,10 @@ const path = require('path');
 const passport = require('passport');
 const session = require('express-session');
 const bodyParser = require('body-parser');
+const MongoStore = require('connect-mongo');
 const noteRoutes = require('./routes/notes');
 const authRoutes = require('./routes/auth');
 const connectDB = require('./config/db');
-const MongoStore = require('connect-mongo');
 
 dotenv.config();
 
@@ -24,7 +24,7 @@ app.use(cors({
 }));
 
 app.use(express.json());
-app.use(bodyParser.json()); // Add body-parser middleware
+app.use(bodyParser.json());
 app.use(morgan('dev'));
 app.use(responseTime());
 
@@ -35,15 +35,15 @@ app.use(express.static(path.join(__dirname, 'frontend')));
 app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
-  saveUninitialized: false, // Set to false to ensure sessions are not saved unless modified
+  saveUninitialized: false,
   store: MongoStore.create({
     mongoUrl: process.env.MONGO_URI,
     collectionName: 'sessions'
   }),
   cookie: {
-    secure: false, // Set to true if using HTTPS
-    httpOnly: true, // Helps prevent cross-site scripting attacks
-    maxAge: 600000 // Set cookie expiry time (10 minutes)
+    secure: false,
+    httpOnly: true,
+    maxAge: 600000 // 10 minutes
   }
 }));
 
@@ -71,7 +71,7 @@ app.get('*', (req, res) => {
 // Error Handling Middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  res.status(500).send('Something broke!');
+  res.status(500).json({ message: 'Something broke!' });
 });
 
 // Set the port (default to 3000 if not set in environment variables)

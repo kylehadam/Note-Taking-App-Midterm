@@ -9,18 +9,14 @@ module.exports = function(passport) {
       try {
         const user = await User.findOne({ username: username });
         if (!user) {
-          return done(null, false, { message: 'Incorrect username or password.' });
+          return done(null, false, { message: 'That username is not registered' });
         }
 
-        console.log('User found:', user);  // Add this line for debugging
-
         const isMatch = await bcrypt.compare(password, user.password);
-        console.log('Password match:', isMatch);  // Add this line for debugging
-
         if (isMatch) {
           return done(null, user);
         } else {
-          return done(null, false, { message: 'Incorrect username or password.' });
+          return done(null, false, { message: 'Password incorrect' });
         }
       } catch (err) {
         return done(err);
@@ -29,13 +25,17 @@ module.exports = function(passport) {
   );
 
   passport.serializeUser((user, done) => {
-    done(null, user.id);
+    process.nextTick(() => {
+      done(null, user.id);
+    });
   });
 
   passport.deserializeUser(async (id, done) => {
     try {
       const user = await User.findById(id);
-      done(null, user);
+      process.nextTick(() => {
+        done(null, user);
+      });
     } catch (err) {
       done(err, null);
     }

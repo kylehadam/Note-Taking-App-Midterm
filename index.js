@@ -7,6 +7,7 @@ const dotenv = require('dotenv');
 const path = require('path');
 const passport = require('passport');
 const session = require('express-session');
+const MongoStore = require('connect-mongo');
 const bodyParser = require('body-parser');
 const noteRoutes = require('./routes/notes');
 const authRoutes = require('./routes/auth');
@@ -34,11 +35,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
-  saveUninitialized: true,
+  saveUninitialized: false,
   cookie: {
     secure: false, // Set to true if using HTTPS
-    maxAge: 12 * 60 * 60 * 1000 // 12 hours in milliseconds
-  }
+    maxAge: 43200000 // Set cookie expiry time (12 hours)
+  },
+  store: MongoStore.create({ mongoUrl: process.env.MONGO_URI })
 }));
 
 // Passport middleware

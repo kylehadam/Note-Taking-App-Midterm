@@ -17,7 +17,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   async function fetchNotes() {
     try {
-      console.log('Fetching notes...');
       const response = await fetch('http://localhost:3000/api/notes', {
         method: 'GET',
         headers: {
@@ -53,7 +52,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const content = sanitizeInput(document.getElementById('content').value);
 
     try {
-      console.log('Creating note...');
       const response = await fetch('http://localhost:3000/api/notes', {
         method: 'POST',
         headers: {
@@ -75,7 +73,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   window.deleteNote = async (id) => {
     try {
-      console.log('Deleting note...');
       const response = await fetch(`http://localhost:3000/api/notes/${id}`, {
         method: 'DELETE',
         headers: {
@@ -105,7 +102,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     try {
-      console.log('Registering user...');
       const response = await fetch('http://localhost:3000/auth/register', {
         method: 'POST',
         headers: {
@@ -129,14 +125,13 @@ document.addEventListener('DOMContentLoaded', () => {
     e.preventDefault();
     const username = sanitizeInput(document.getElementById('login-username').value);
     const password = sanitizeInput(document.getElementById('login-password').value);
-
+  
     if (username === "" || password === "") {
       errorDisplay.textContent = 'Username and password cannot be empty';
       return;
     }
-
+  
     try {
-      console.log('Logging in user...');
       const response = await fetch('http://localhost:3000/auth/login', {
         method: 'POST',
         headers: {
@@ -146,8 +141,8 @@ document.addEventListener('DOMContentLoaded', () => {
         credentials: 'include' // Ensure cookies are included in requests
       });
       if (!response.ok) {
-        const errorMsg = await response.text();
-        throw new Error(errorMsg);
+        const errorMsg = await response.json();
+        throw new Error(errorMsg.msg || 'Failed to login');
       }
       userSection.style.display = 'none';
       noteApp.style.display = 'block';
@@ -158,10 +153,9 @@ document.addEventListener('DOMContentLoaded', () => {
       errorDisplay.textContent = 'Error logging in: ' + error.message;
     }
   });
-
+  
   logoutButton.addEventListener('click', async () => {
     try {
-      console.log('Logging out user...');
       const response = await fetch('http://localhost:3000/auth/logout', {
         method: 'GET',
         credentials: 'include' // Ensure cookies are included in requests
@@ -179,8 +173,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Fetch notes on initial load only if user is logged in
+  // Only fetch notes if the user is logged in
   if (document.cookie.includes('connect.sid')) {
-    fetchNotes();
+    fetchNotes(); // Fetch notes on initial load
   }
 });

@@ -1,22 +1,31 @@
 const LocalStrategy = require('passport-local').Strategy;
 const mongoose = require('mongoose');
+const crypto = require('crypto');
 const User = require('../models/User');
 
 module.exports = function(passport) {
   passport.use(
-    new LocalStrategy({ usernameField: 'username' }, async (username, password, done) => {
+    new LocalStrategy(async (username, password, done) => {
       try {
-        const user = await User.findOne({ username: username });
+        const user = await User.findOne({ username });
         if (!user) {
-          return done(null, false, { message: 'That username is not registered' });
+          return done(null, false, { message: 'Incorrect username or password.' });
         }
 
-        if (user.validatePassword(password)) {
+        crypto.pbkdf2(password, Buffer.from(user.passwordSalt, 'base64'), 310000, 32, 'sha256', (err, hashedPassword) => {
+          if (err) {
+            console.error('Error in pbkdf2:', err);
+            return done(err);
+          }
+
+          if (!crypto.timingSafeEqual(Buffer.from(user.passwordHash, 'base64'), hashedPassword)) {
+            return done(null, false, { message: 'Incorrect username or password.' });
+          }
+
           return done(null, user);
-        } else {
-          return done(null, false, { message: 'Password incorrect' });
-        }
+        });
       } catch (err) {
+        console.error('Error finding user:', err);
         return done(err);
       }
     })
@@ -31,10 +40,9 @@ module.exports = function(passport) {
   passport.deserializeUser(async (id, done) => {
     try {
       const user = await User.findById(id);
-      process.nextTick(() => {
-        done(null, user);
-      });
+      done(null, user);
     } catch (err) {
+      console.error('Error deserializing user:', err);
       done(err, null);
     }
   });

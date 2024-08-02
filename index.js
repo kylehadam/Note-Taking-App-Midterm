@@ -56,7 +56,7 @@ mongoose.set('strictQuery', true);
 connectDB();
 
 // Middleware and Routes
-app.use('/api', noteRoutes);
+app.use('/api', noteRoutes); // Ensure this is correctly set up for /api routes
 app.use('/auth', authRoutes);
 
 // Serve index.html for all other routes

@@ -10,30 +10,196 @@ body {
    height: 100vh;
 }
 
-/* App container styles */
+/* Centered container for login/registration and main content */
 #app {
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   width: 100%;
+   height: 100%;
+}
+
+/* Main title styles */
+.main-title {
+   text-align: center;
+}
+
+/* Login and registration section styles */
+#user-section {
    background: white;
    padding: 20px;
    border-radius: 8px;
    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+   max-width: 400px;
+   width: 100%;
+   margin: 20px;
+}
+
+/* Form section styles */
+.form-section {
+   text-align: left; /* Ensure form sections are left-aligned */
+   margin-bottom: 20px;
+}
+
+.form-section h2 {
+   margin-bottom: 10px;
+}
+
+.form-section form {
+   display: flex;
+   flex-direction: column;
+}
+
+.form-section input,
+.form-section button {
+   width: calc(100% - 22px);
+   margin-bottom: 10px;
+   padding: 10px;
+   border: 1px solid #ccc;
+   border-radius: 4px;
+}
+
+.form-section button {
+   background: #007bff;
+   color: white;
+   border: none;
+   border-radius: 4px;
+   cursor: pointer;
+}
+
+.form-section button:hover {
+   background: #0056b3;
+}
+
+/* Navigation bar styles */
+nav {
+   background-color: #007bff;
+   padding: 10px;
+   width: 100%;
+   display: flex;
+   justify-content: center;
+}
+
+nav ul {
+   list-style: none;
+   padding: 0;
+   margin: 0;
+   display: flex;
+   justify-content: space-around;
+   width: 100%;
    max-width: 600px;
+}
+
+nav ul li {
+   margin: 0;
+}
+
+nav ul li a,
+nav ul li button {
+   color: white;
+   text-decoration: none;
+   padding: 10px;
+   display: block;
+   background: none;
+   border: none;
+   cursor: pointer;
+}
+
+nav ul li a:hover,
+nav ul li button:hover {
+   background-color: #0056b3;
+   border-radius: 4px;
+}
+
+/* Main content styles */
+#note-app {
+   display: none;
+   flex-direction: column;
+   align-items: center;
+   width: 100%;
+   height: 100%;
+}
+
+main {
+   flex: 1;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   padding: 20px;
    width: 100%;
 }
 
-/* Heading styles */
-h1 {
-   text-align: center;
-   color: #333;
+section {
+   background: white;
+   padding: 20px;
+   border-radius: 8px;
+   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+   max-width: 800px;
+   width: 100%;
+   margin: 20px;
 }
 
 /* Note list styles */
-#note-list {
-   margin-bottom: 20px;
+.note-list {
+   display: grid;
+   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Responsive grid */
+   gap: 20px;
+   width: 100%;
+}
+
+.note {
+   background: #fff;
+   border-radius: 8px;
+   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+   padding: 15px;
+   display: flex;
+   flex-direction: column;
+   gap: 10px;
+}
+
+.note h2 {
+   margin: 0;
+   font-size: 1.25em;
+}
+
+.note p {
+   margin: 0;
+   color: #666;
+}
+
+.note .meta {
+   display: flex;
+   justify-content: space-between;
+   font-size: 0.9em;
+   color: #999;
+}
+
+.note .actions {
+   display: flex;
+   gap: 10px;
+}
+
+.note .actions button {
+   background: #007bff;
+   color: white;
+   border: none;
+   padding: 5px 10px;
+   border-radius: 4px;
+   cursor: pointer;
+}
+
+.note .actions button:hover {
+   background: #0056b3;
 }
 
 /* Form input and textarea styles */
 #note-form input,
-#note-form textarea {
+#note-form textarea,
+#note-form select,
+#edit-note-form input,
+#edit-note-form textarea,
+#edit-note-form select {
    width: calc(100% - 22px);
    margin-bottom: 10px;
    padding: 10px;
@@ -42,7 +208,8 @@ h1 {
 }
 
 /* Form button styles */
-#note-form button {
+#note-form button,
+#edit-note-form button {
    padding: 10px 15px;
    background: #007bff;
    color: white;
@@ -52,6 +219,34 @@ h1 {
 }
 
 /* Form button hover state */
-#note-form button:hover {
+#note-form button:hover,
+#edit-note-form button:hover {
    background: #0056b3;
+}
+
+/* Responsive styles */
+@media (max-width: 600px) {
+   nav ul {
+      flex-direction: column;
+   }
+
+   nav ul li {
+      margin-bottom: 10px;
+   }
+
+   section {
+      margin: 10px;
+      padding: 10px;
+   }
+}
+
+@media (min-width: 601px) {
+   #app {
+      flex-direction: column;
+   }
+
+   main {
+      flex-direction: column;
+      align-items: center;
+   }
 }

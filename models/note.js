@@ -9,6 +9,15 @@ const noteSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  tags: {
+    type: [String],
+    required: true
+  },
+  priority: {
+    type: String,
+    enum: ['Low', 'Medium', 'High'],
+    required: true
+  },
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
@@ -17,7 +26,16 @@ const noteSchema = new mongoose.Schema({
   createdAt: {
     type: Date,
     default: Date.now
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now
   }
+});
+
+noteSchema.pre('save', function(next) {
+  this.updatedAt = Date.now();
+  next();
 });
 
 // Check if the model already exists to prevent OverwriteModelError

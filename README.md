@@ -115,6 +115,37 @@ Create new notes after logging in.
 View all notes associated with the logged-in user.
 Delete notes as needed.
 
+Testing
+Setup
+
+Install the testing dependencies:
+npm install mocha chai chai-as-promised sinon mongoose --save-dev
+
+Create the following files in your test directory:
+setup.js
+register.test.js
+login.test.js
+addNote.test.js
+retrieveNotes.test.js
+
+Running Tests
+To run the tests, use the following command:
+npm test
+
+Test Descriptions
+User Registration Test
+File: test/register.test.js
+Description: Tests the user registration functionality by creating a new user and verifying the saved user details.
+User Login Test
+File: test/login.test.js
+Description: Tests the user login functionality by logging in with an existing user and verifying the logged-in user details.
+Add Note Test
+File: test/addNote.test.js
+Description: Tests the note creation functionality by adding a note for an existing user and verifying the saved note details.
+Retrieve Notes Test
+File: test/retrieveNotes.test.js
+Description: Tests the note retrieval functionality by fetching notes for an existing user and verifying the retrieved notes.
+
 Additional Information
 The app uses passport-local for local authentication and crypto.pbkdf2 for secure password hashing.
 Sessions are managed using express-session and stored in MongoDB using connect-mongo.

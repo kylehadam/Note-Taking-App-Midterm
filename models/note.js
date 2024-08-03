@@ -15,7 +15,7 @@ const noteSchema = new mongoose.Schema({
   },
   priority: {
     type: String,
-    enum: ['Low', 'Medium', 'High'],
+    enum: ['Not Urgent','Low', 'Medium', 'High'],
     required: true
   },
   user: {

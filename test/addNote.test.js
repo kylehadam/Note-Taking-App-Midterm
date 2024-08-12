@@ -1,8 +1,8 @@
 // test/addNote.test.js
 
 const { connectDB, disconnectDB, loadModules, getExpect } = require('./setup');
-const Note = require('../models/Note'); // Adjust the path according to your project structure
-const User = require('../models/User'); // Adjust the path according to your project structure
+const Note = require('../models/note'); // Adjust the path according to your project structure
+const User = require('../models/user'); // Adjust the path according to your project structure
 
 describe('Add Note', function () {
     before(async function () {

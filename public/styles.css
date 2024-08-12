@@ -28,22 +28,22 @@ body {
 /* Login and registration section styles */
 #user-section {
    background: white;
-   padding: 20px;
-   border-radius: 8px;
-   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-   max-width: 400px;
+   padding: 1.25em;
+   border-radius: 0.5em;
+   box-shadow: 0 0 0.625em rgba(0, 0, 0, 0.1);
+   max-width: 25em;
    width: 100%;
-   margin: 20px;
+   margin: 1.25em;
 }
 
 /* Form section styles */
 .form-section {
-   text-align: left; /* Ensure form sections are left-aligned */
-   margin-bottom: 20px;
+   text-align: left;
+   margin-bottom: 1.25em;
 }
 
 .form-section h2 {
-   margin-bottom: 10px;
+   margin-bottom: 0.625em;
 }
 
 .form-section form {
@@ -53,18 +53,18 @@ body {
 
 .form-section input,
 .form-section button {
-   width: calc(100% - 22px);
-   margin-bottom: 10px;
-   padding: 10px;
+   width: calc(100% - 1.375em);
+   margin-bottom: 0.625em;
+   padding: 0.625em;
    border: 1px solid #ccc;
-   border-radius: 4px;
+   border-radius: 0.25em;
 }
 
 .form-section button {
    background: #007bff;
    color: white;
    border: none;
-   border-radius: 4px;
+   border-radius: 0.25em;
    cursor: pointer;
 }
 
@@ -75,7 +75,7 @@ body {
 /* Navigation bar styles */
 nav {
    background-color: #007bff;
-   padding: 10px;
+   padding: 0.625em;
    width: 100%;
    display: flex;
    justify-content: center;
@@ -88,7 +88,7 @@ nav ul {
    display: flex;
    justify-content: space-around;
    width: 100%;
-   max-width: 600px;
+   max-width: 37.5em;
 }
 
 nav ul li {
@@ -99,7 +99,7 @@ nav ul li a,
 nav ul li button {
    color: white;
    text-decoration: none;
-   padding: 10px;
+   padding: 0.625em;
    display: block;
    background: none;
    border: none;
@@ -109,7 +109,7 @@ nav ul li button {
 nav ul li a:hover,
 nav ul li button:hover {
    background-color: #0056b3;
-   border-radius: 4px;
+   border-radius: 0.25em;
 }
 
 /* Main content styles */
@@ -126,36 +126,36 @@ main {
    display: flex;
    justify-content: center;
    align-items: center;
-   padding: 20px;
+   padding: 1.25em;
    width: 100%;
 }
 
 section {
    background: white;
-   padding: 20px;
-   border-radius: 8px;
-   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-   max-width: 800px;
+   padding: 1.25em;
+   border-radius: 0.5em;
+   box-shadow: 0 0 0.625em rgba(0, 0, 0, 0.1);
+   max-width: 50em;
    width: 100%;
-   margin: 20px;
+   margin: 1.25em;
 }
 
 /* Note list styles */
 .note-list {
    display: grid;
-   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Responsive grid */
-   gap: 20px;
+   grid-template-columns: repeat(auto-fill, minmax(15.625em, 1fr));
+   gap: 1.25em;
    width: 100%;
 }
 
 .note {
    background: #fff;
-   border-radius: 8px;
-   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-   padding: 15px;
+   border-radius: 0.5em;
+   box-shadow: 0 0 0.3125em rgba(0, 0, 0, 0.1);
+   padding: 0.9375em;
    display: flex;
    flex-direction: column;
-   gap: 10px;
+   gap: 0.625em;
 }
 
 .note h2 {
@@ -177,15 +177,15 @@ section {
 
 .note .actions {
    display: flex;
-   gap: 10px;
+   gap: 0.625em;
 }
 
 .note .actions button {
    background: #007bff;
    color: white;
    border: none;
-   padding: 5px 10px;
-   border-radius: 4px;
+   padding: 0.3125em 0.625em;
+   border-radius: 0.25em;
    cursor: pointer;
 }
 
@@ -200,21 +200,21 @@ section {
 #edit-note-form input,
 #edit-note-form textarea,
 #edit-note-form select {
-   width: calc(100% - 22px);
-   margin-bottom: 10px;
-   padding: 10px;
+   width: calc(100% - 1.375em);
+   margin-bottom: 0.625em;
+   padding: 0.625em;
    border: 1px solid #ccc;
-   border-radius: 4px;
+   border-radius: 0.25em;
 }
 
 /* Form button styles */
 #note-form button,
 #edit-note-form button {
-   padding: 10px 15px;
+   padding: 0.625em 0.9375em;
    background: #007bff;
    color: white;
    border: none;
-   border-radius: 4px;
+   border-radius: 0.25em;
    cursor: pointer;
 }
 
@@ -225,22 +225,22 @@ section {
 }
 
 /* Responsive styles */
-@media (max-width: 600px) {
+@media (max-width: 37.5em) {
    nav ul {
       flex-direction: column;
    }
 
    nav ul li {
-      margin-bottom: 10px;
+      margin-bottom: 0.625em;
    }
 
    section {
-      margin: 10px;
-      padding: 10px;
+      margin: 0.625em;
+      padding: 0.625em;
    }
 }
 
-@media (min-width: 601px) {
+@media (min-width: 37.5625em) {
    #app {
       flex-direction: column;
    }
@@ -249,4 +249,20 @@ section {
       flex-direction: column;
       align-items: center;
    }
+}
+
+/* Footer styles */
+footer.main-title {
+   font-size: 1rem;
+   padding: 10px 0;
+   background-color: #f4f4f4;
+   border-top: 1px solid #ddd;
+   position: absolute;
+   width: 100%;
+   bottom: 0;
+}
+
+/* Log out styles */
+.logout-link {
+   cursor: pointer;
 }

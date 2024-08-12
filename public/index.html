@@ -38,7 +38,7 @@
          </nav>
          <main>
             <section id="home-section">
-               <h1>Welcome to the Note-Taking App</h1>
+               <h2>Welcome to the Note-Taking App</h2>
                <p>This is the home page. Use the navigation bar to access different sections.</p>
             </section>
             <section id="add-note-section" style="display: none;">
@@ -48,6 +48,7 @@
                   <textarea id="content" placeholder="Content" required></textarea>
                   <input type="text" id="tags" placeholder="Tags (comma separated)" required>
                   <select id="priority" required>
+                     <option value="" disabled selected>Select Priority</option>
                      <option value="Not Urgent">Not Urgent</option>
                      <option value="Low">Low</option>
                      <option value="Medium">Medium</option>
@@ -63,6 +64,7 @@
                   <textarea id="edit-content" placeholder="Content" required></textarea>
                   <input type="text" id="edit-tags" placeholder="Tags (comma separated)" required>
                   <select id="edit-priority" required>
+                     <option value="" disabled selected>Select Priority</option>
                      <option value="Not Urgent">Not Urgent</option>
                      <option value="Low">Low</option>
                      <option value="Medium">Medium</option>

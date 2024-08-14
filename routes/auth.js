@@ -40,8 +40,8 @@ router.post('/register', async (req, res) => {
       res.json({ msg: 'You are now registered and can log in' });
     });
   } catch (err) {
-    console.error(err);
-    res.status(500).send('Server error');
+    console.error('Error registering user:', err);
+    res.status(500).json({ msg: 'Server error' });
   }
 });
 

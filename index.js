@@ -17,9 +17,10 @@ dotenv.config();
 
 const app = express();
 
-// CORS configuration for a single origin
+// Dynamic CORS configuration based on the PORT variable
+const corsOrigin = `http://127.0.0.1:${process.env.PORT || 3000}`;
 app.use(cors({
-  origin: 'http://127.0.0.1:3000',
+  origin: corsOrigin,
   credentials: true
 }));
 

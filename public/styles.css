@@ -1,75 +1,19 @@
-/* General body styles */
-body {
+/* General body and HTML styles */
+body, html {
+   height: 100%;
+   margin: 0;
    font-family: Arial, sans-serif;
    background-color: #f0f0f0;
-   margin: 0;
-   padding: 0;
    display: flex;
-   justify-content: center;
-   align-items: center;
-   height: 100vh;
+   flex-direction: column;
 }
 
-/* Centered container for login/registration and main content */
+/* Main container for the app */
 #app {
+   flex: 1;
    display: flex;
    flex-direction: column;
-   justify-content: center;
-   align-items: center;
    width: 100%;
-   height: 100%;
-}
-
-/* Main title styles */
-.main-title {
-   text-align: center;
-}
-
-/* Login and registration section styles */
-#user-section {
-   background: white;
-   padding: 1.25em;
-   border-radius: 0.5em;
-   box-shadow: 0 0 0.625em rgba(0, 0, 0, 0.1);
-   max-width: 25em;
-   width: 100%;
-   margin: 1.25em;
-}
-
-/* Form section styles */
-.form-section {
-   text-align: left;
-   margin-bottom: 1.25em;
-}
-
-.form-section h2 {
-   margin-bottom: 0.625em;
-}
-
-.form-section form {
-   display: flex;
-   flex-direction: column;
-}
-
-.form-section input,
-.form-section button {
-   width: calc(100% - 1.375em);
-   margin-bottom: 0.625em;
-   padding: 0.625em;
-   border: 1px solid #ccc;
-   border-radius: 0.25em;
-}
-
-.form-section button {
-   background: #007bff;
-   color: white;
-   border: none;
-   border-radius: 0.25em;
-   cursor: pointer;
-}
-
-.form-section button:hover {
-   background: #0056b3;
 }
 
 /* Navigation bar styles */
@@ -79,8 +23,12 @@ nav {
    width: 100%;
    display: flex;
    justify-content: center;
+   position: fixed;
+   top: 0;
+   z-index: 1000;
 }
 
+/* Navigation list styles */
 nav ul {
    list-style: none;
    padding: 0;
@@ -113,23 +61,83 @@ nav ul li button:hover {
 }
 
 /* Main content styles */
+main {
+   flex: 1;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+   width: 100%;
+   padding-top: 60px; /* Add space for the fixed nav */
+   padding-bottom: 100px; /* Space for the footer */
+}
+
+/* Login and registration section styles */
+#user-section {
+   background: white;
+   padding: 1.25em;
+   border-radius: 0.5em;
+   box-shadow: 0 0 0.625em rgba(0, 0, 0, 0.1);
+   max-width: 25em;
+   width: 100%;
+   margin: 0 auto;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+}
+
+/* Form section styles */
+.form-section {
+   text-align: left;
+   margin-bottom: 1.25em;
+   width: 100%;
+}
+
+.form-section h2 {
+   margin-bottom: 0.625em;
+   text-align: center; /* Center the form title */
+}
+
+.form-section form {
+   display: flex;
+   flex-direction: column;
+}
+
+.form-section input,
+.form-section button {
+   width: calc(100% - 1.375em);
+   margin-bottom: 0.625em;
+   padding: 0.625em;
+   border: 1px solid #ccc;
+   border-radius: 0.25em;
+}
+
+.form-section button {
+   background: #007bff;
+   color: white;
+   border: none;
+   border-radius: 0.25em;
+   cursor: pointer;
+}
+
+.form-section button:hover {
+   background: #0056b3;
+}
+
+/* Note-taking app main content */
 #note-app {
    display: none;
    flex-direction: column;
    align-items: center;
    width: 100%;
-   height: 100%;
 }
 
-main {
-   flex: 1;
-   display: flex;
-   justify-content: center;
-   align-items: center;
-   padding: 1.25em;
-   width: 100%;
-}
-
+/* Section styles */
 section {
    background: white;
    padding: 1.25em;
@@ -224,6 +232,22 @@ section {
    background: #0056b3;
 }
 
+/* Footer styles */
+footer.main-title {
+   font-size: 1rem;
+   padding: 10px 0;
+   background-color: #f4f4f4;
+   border-top: 1px solid #ddd;
+   width: 100%;
+   text-align: center;
+   margin-top: auto;
+}
+
+/* Log out styles */
+.logout-link {
+   cursor: pointer;
+}
+
 /* Responsive styles */
 @media (max-width: 37.5em) {
    nav ul {
@@ -249,20 +273,4 @@ section {
       flex-direction: column;
       align-items: center;
    }
-}
-
-/* Footer styles */
-footer.main-title {
-   font-size: 1rem;
-   padding: 10px 0;
-   background-color: #f4f4f4;
-   border-top: 1px solid #ddd;
-   position: absolute;
-   width: 100%;
-   bottom: 0;
-}
-
-/* Log out styles */
-.logout-link {
-   cursor: pointer;
 }

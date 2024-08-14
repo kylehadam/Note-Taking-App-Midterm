@@ -1,4 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
+  const apiBaseUrl = `http://${window.location.hostname}:${window.location.port}`;
+
   const noteForm = document.getElementById('note-form');
   const editNoteForm = document.getElementById('edit-note-form');
   const noteList = document.getElementById('note-list');
@@ -40,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   async function fetchNotes() {
     try {
-      const response = await fetch('http://localhost:3000/api/notes', {
+      const response = await fetch(`${apiBaseUrl}/api/notes`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'
@@ -89,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const priority = sanitizeInput(document.getElementById('priority').value);
 
     try {
-      const response = await fetch('http://localhost:3000/api/notes', {
+      const response = await fetch(`${apiBaseUrl}/api/notes`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -103,7 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       fetchNotes(); // Fetch notes after adding a new one
       showSection(myNotesSection); // Redirect to My Notes section
-      noteForm.reset();
+      noteForm.reset();  // Clears all input fields
     } catch (error) {
       console.error('Error creating note:', error);
       errorDisplay.textContent = 'Error creating note: ' + error.message;
@@ -119,7 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const noteId = editNoteForm.dataset.noteId;
 
     try {
-      const response = await fetch(`http://localhost:3000/api/notes/${noteId}`, {
+      const response = await fetch(`${apiBaseUrl}/api/notes/${noteId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
@@ -133,7 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       fetchNotes(); // Fetch notes after updating
       showSection(myNotesSection); // Redirect to My Notes section
-      editNoteForm.reset();
+      editNoteForm.reset();  // Clears all input fields
       delete editNoteForm.dataset.noteId; // Clear the noteId to reset form state
     } catch (error) {
       console.error('Error updating note:', error);
@@ -143,7 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   window.deleteNote = async (id) => {
     try {
-      const response = await fetch(`http://localhost:3000/api/notes/${id}`, {
+      const response = await fetch(`${apiBaseUrl}/api/notes/${id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json'
@@ -187,7 +189,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   async function fetchNoteById(id) {
     try {
-      const response = await fetch(`http://localhost:3000/api/notes/${id}`, {
+      const response = await fetch(`${apiBaseUrl}/api/notes/${id}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'
@@ -217,7 +219,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     try {
-      const response = await fetch('http://localhost:3000/auth/register', {
+      const response = await fetch(`${apiBaseUrl}/auth/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -230,6 +232,7 @@ document.addEventListener('DOMContentLoaded', () => {
         throw new Error(errorMsg.msg || 'Failed to register');
       }
       alert('Registration successful. Please login.');
+      registerForm.reset();  // Clears all input fields
     } catch (error) {
       console.error('Error registering user:', error);
       errorDisplay.textContent = 'Error registering user: ' + error.message;
@@ -240,14 +243,14 @@ document.addEventListener('DOMContentLoaded', () => {
     e.preventDefault();
     const username = sanitizeInput(document.getElementById('login-username').value);
     const password = sanitizeInput(document.getElementById('login-password').value);
-  
+
     if (username === "" || password === "") {
       errorDisplay.textContent = 'Username and password cannot be empty';
       return;
     }
-  
+
     try {
-      const response = await fetch('http://localhost:3000/auth/login', {
+      const response = await fetch(`${apiBaseUrl}/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -262,15 +265,16 @@ document.addEventListener('DOMContentLoaded', () => {
       userSection.style.display = 'none';
       noteApp.style.display = 'flex';
       showSection(homeSection); // Show home section on login
+      loginForm.reset();  // Clears all input fields
     } catch (error) {
       console.error('Error logging in:', error);
       errorDisplay.textContent = 'Error logging in: ' + error.message;
     }
   });
-  
+
   logoutButton.addEventListener('click', async () => {
     try {
-      const response = await fetch('http://localhost:3000/auth/logout', {
+      const response = await fetch(`${apiBaseUrl}/auth/logout`, {
         method: 'GET',
         credentials: 'include' // Ensure cookies are included in requests
       });

@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const apiBaseUrl = `http://${window.location.hostname}:${window.location.port}`;
+  const apiBaseUrl = `${window.location.protocol}//${window.location.hostname}:${window.location.port || ''}`;
 
   const noteForm = document.getElementById('note-form');
   const editNoteForm = document.getElementById('edit-note-form');
@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const logoutButton = document.getElementById('logout-button');
   const noteApp = document.getElementById('note-app');
   const userSection = document.getElementById('user-section');
-  const errorDisplay = document.createElement('div'); // Element to display errors
+  const errorDisplay = document.createElement('div'); 
   const homeSection = document.getElementById('home-section');
   const addNoteSection = document.getElementById('add-note-section');
   const editNoteSection = document.getElementById('edit-note-section');
@@ -44,15 +44,10 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
       const response = await fetch(`${apiBaseUrl}/api/notes`, {
         method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        credentials: 'include' // Ensure cookies are included in requests
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include' 
       });
-      if (!response.ok) {
-        const errorMsg = await response.text();
-        throw new Error(`Failed to fetch notes: ${errorMsg}`);
-      }
+      if (!response.ok) throw new Error(`Failed to fetch notes: ${await response.text()}`);
       const notes = await response.json();
       noteList.innerHTML = '';
       notes.forEach(note => {
@@ -93,19 +88,14 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
       const response = await fetch(`${apiBaseUrl}/api/notes`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ title, content, tags, priority }),
-        credentials: 'include' // Ensure cookies are included in requests
+        credentials: 'include'
       });
-      if (!response.ok) {
-        const errorMsg = await response.text();
-        throw new Error(`Failed to create note: ${errorMsg}`);
-      }
-      fetchNotes(); // Fetch notes after adding a new one
-      showSection(myNotesSection); // Redirect to My Notes section
-      noteForm.reset();  // Clears all input fields
+      if (!response.ok) throw new Error(`Failed to create note: ${await response.text()}`);
+      fetchNotes();
+      showSection(myNotesSection);
+      noteForm.reset();
     } catch (error) {
       console.error('Error creating note:', error);
       errorDisplay.textContent = 'Error creating note: ' + error.message;
@@ -123,20 +113,15 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
       const response = await fetch(`${apiBaseUrl}/api/notes/${noteId}`, {
         method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ title, content, tags, priority }),
-        credentials: 'include' // Ensure cookies are included in requests
+        credentials: 'include'
       });
-      if (!response.ok) {
-        const errorMsg = await response.text();
-        throw new Error(`Failed to update note: ${errorMsg}`);
-      }
-      fetchNotes(); // Fetch notes after updating
-      showSection(myNotesSection); // Redirect to My Notes section
-      editNoteForm.reset();  // Clears all input fields
-      delete editNoteForm.dataset.noteId; // Clear the noteId to reset form state
+      if (!response.ok) throw new Error(`Failed to update note: ${await response.text()}`);
+      fetchNotes();
+      showSection(myNotesSection);
+      editNoteForm.reset();
+      delete editNoteForm.dataset.noteId;
     } catch (error) {
       console.error('Error updating note:', error);
       errorDisplay.textContent = 'Error updating note: ' + error.message;
@@ -147,15 +132,10 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
       const response = await fetch(`${apiBaseUrl}/api/notes/${id}`, {
         method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        credentials: 'include' // Ensure cookies are included in requests
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include'
       });
-      if (!response.ok) {
-        const errorMsg = await response.text();
-        throw new Error(`Failed to delete note: ${errorMsg}`);
-      }
+      if (!response.ok) throw new Error(`Failed to delete note: ${await response.text()}`);
       fetchNotes();
     } catch (error) {
       console.error('Error deleting note:', error);
@@ -171,7 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('edit-content').value = note.content;
       document.getElementById('edit-tags').value = note.tags.join(', ');
       document.getElementById('edit-priority').value = note.priority;
-      editNoteForm.dataset.noteId = id; // Store note ID for update
+      editNoteForm.dataset.noteId = id;
     }
   };
 
@@ -183,7 +163,6 @@ document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('content').value = note.content;
       document.getElementById('tags').value = note.tags.join(', ');
       document.getElementById('priority').value = note.priority;
-      delete noteForm.dataset.noteId; // Ensure new note is created
     }
   };
 
@@ -191,15 +170,10 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
       const response = await fetch(`${apiBaseUrl}/api/notes/${id}`, {
         method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        credentials: 'include' // Ensure cookies are included in requests
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include'
       });
-      if (!response.ok) {
-        const errorMsg = await response.text();
-        throw new Error(`Failed to fetch note: ${errorMsg}`);
-      }
+      if (!response.ok) throw new Error(`Failed to fetch note: ${await response.text()}`);
       return await response.json();
     } catch (error) {
       console.error('Error fetching note:', error);
@@ -213,7 +187,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const username = sanitizeInput(document.getElementById('register-username').value);
     const password = sanitizeInput(document.getElementById('register-password').value);
 
-    if (username === "" || password === "") {
+    if (!username || !password) {
       errorDisplay.textContent = 'Username and password cannot be empty';
       return;
     }
@@ -221,18 +195,13 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
       const response = await fetch(`${apiBaseUrl}/auth/register`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password }),
-        credentials: 'include' // Ensure cookies are included in requests
+        credentials: 'include'
       });
-      if (!response.ok) {
-        const errorMsg = await response.json();
-        throw new Error(errorMsg.msg || 'Failed to register');
-      }
+      if (!response.ok) throw new Error((await response.json()).msg || 'Failed to register');
       alert('Registration successful. Please login.');
-      registerForm.reset();  // Clears all input fields
+      registerForm.reset();
     } catch (error) {
       console.error('Error registering user:', error);
       errorDisplay.textContent = 'Error registering user: ' + error.message;
@@ -244,7 +213,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const username = sanitizeInput(document.getElementById('login-username').value);
     const password = sanitizeInput(document.getElementById('login-password').value);
 
-    if (username === "" || password === "") {
+    if (!username || !password) {
       errorDisplay.textContent = 'Username and password cannot be empty';
       return;
     }
@@ -252,20 +221,15 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
       const response = await fetch(`${apiBaseUrl}/auth/login`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password }),
-        credentials: 'include' // Ensure cookies are included in requests
+        credentials: 'include'
       });
-      if (!response.ok) {
-        const errorMsg = await response.json();
-        throw new Error(errorMsg.msg || 'Failed to login');
-      }
+      if (!response.ok) throw new Error((await response.json()).msg || 'Failed to login');
       userSection.style.display = 'none';
       noteApp.style.display = 'flex';
-      showSection(homeSection); // Show home section on login
-      loginForm.reset();  // Clears all input fields
+      showSection(homeSection);
+      loginForm.reset();
     } catch (error) {
       console.error('Error logging in:', error);
       errorDisplay.textContent = 'Error logging in: ' + error.message;
@@ -276,12 +240,9 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
       const response = await fetch(`${apiBaseUrl}/auth/logout`, {
         method: 'GET',
-        credentials: 'include' // Ensure cookies are included in requests
+        credentials: 'include'
       });
-      if (!response.ok) {
-        const errorMsg = await response.text();
-        throw new Error(`Failed to logout: ${errorMsg}`);
-      }
+      if (!response.ok) throw new Error(`Failed to logout: ${await response.text()}`);
       userSection.style.display = 'block';
       noteApp.style.display = 'none';
     } catch (error) {
@@ -290,10 +251,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Only fetch notes if the user is logged in
   if (document.cookie.includes('connect.sid')) {
     userSection.style.display = 'none';
     noteApp.style.display = 'flex';
-    showSection(homeSection); // Show home section on initial load if logged in
+    showSection(homeSection);
   }
 });
